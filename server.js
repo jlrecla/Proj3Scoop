@@ -33,7 +33,8 @@ const routes = {
     'POST': createComment
   },
   '/comments/:id': {
-    'PUT': updateComment
+    'PUT': updateComment,
+    'DELETE': deleteComment
   },
   '/comments/:id/upvote': {
     
@@ -215,7 +216,10 @@ function updateComment(url, request) {
   } else if (!savedComment) {
     response.status = 404;
   } else {
+    savedComment.body = requestComment.body || savedComment.body;
 
+    response.body = {comment: savedComment};
+    response.status = 200;
   }
 
   return response;
@@ -242,6 +246,10 @@ function deleteArticle(url, request) {
   }
 
   return response;
+}
+
+function deleteComment(url, request) {
+
 }
 
 function upvoteArticle(url, request) {
