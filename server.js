@@ -249,7 +249,21 @@ function deleteArticle(url, request) {
 }
 
 function deleteComment(url, request) {
+  const id = Number(url.split('/').filter(segment => segment)[1]);
+  const savedComment = database.comments[id];
+  const response = {};
 
+  if(savedComment) {
+    database.comments[id] = null;
+
+    
+
+    response.status = 204;
+  } else {
+    response.status = 400;
+  }
+
+  return response;
 }
 
 function upvoteArticle(url, request) {
