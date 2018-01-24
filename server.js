@@ -256,11 +256,15 @@ function deleteComment(url, request) {
   if(savedComment) {
     database.comments[id] = null;
 
-    
+    const userCommentIds = database.users[savedComment.username].commentIds;
+    const articleCommentIds = database.articles[savedComment.articleId].commentIds;
+
+    userCommentIds.splice(userCommentIds.indexOf(id), 1);
+    articleCommentIds.splice(articleCommentIds.indexOf(id), 1);
 
     response.status = 204;
   } else {
-    response.status = 400;
+    response.status = 404;
   }
 
   return response;
